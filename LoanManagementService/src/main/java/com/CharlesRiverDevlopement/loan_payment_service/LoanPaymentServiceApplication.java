@@ -13,8 +13,4 @@ public class LoanPaymentServiceApplication {
     SpringApplication.run(LoanPaymentServiceApplication.class, args);
   }
 
-  @GetMapping("/")
-  public String getData() {
-    return "hello world";
-  }
 }
