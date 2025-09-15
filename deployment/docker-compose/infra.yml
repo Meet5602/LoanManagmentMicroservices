@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  loan_management_postgres:
+    image: postgres:16-alpine
+    container_name: loan_management_db
+    restart: always
+    environment:
+      POSTGRES_DB: loan_management_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      TZ: Asia/Kolkata        # Correct timezone
+    ports:
+      - "15432:5432"
+    deploy:
+      resources:
+        limits:
+          memory: 512M

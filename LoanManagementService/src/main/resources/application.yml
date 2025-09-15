@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/loan_payment_db?serverTimezone=Asia/Kolkata
-    username: postgres
-    password: postgres123
+    url: ${DB_URL:jdbc:postgresql://localhost:15432/loan_management_db?serverTimezone=Asia/Kolkata}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres123}
     driver-class-name: org.postgresql.Driver
 
   jpa:
