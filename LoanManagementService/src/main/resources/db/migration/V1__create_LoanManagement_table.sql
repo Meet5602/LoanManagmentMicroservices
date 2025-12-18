@@ -10,8 +10,6 @@ CREATE TABLE public.kyc (
 );
 
 
-ALTER TABLE public.kyc OWNER TO postgres;
-
 --
 -- TOC entry 215 (class 1259 OID 16385)
 -- Name: kyc_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -44,8 +42,6 @@ CREATE TABLE public.loan (
 );
 
 
-ALTER TABLE public.loan OWNER TO postgres;
-
 --
 -- TOC entry 220 (class 1259 OID 16401)
 -- Name: loan_application; Type: TABLE; Schema: public; Owner: postgres
@@ -64,8 +60,6 @@ CREATE TABLE public.loan_application (
     CONSTRAINT loan_application_status_check CHECK (((status)::text = ANY ((ARRAY['PENDING'::character varying, 'VERIFIED'::character varying, 'REJECTED'::character varying])::text[])))
 );
 
-
-ALTER TABLE public.loan_application OWNER TO postgres;
 
 --
 -- TOC entry 219 (class 1259 OID 16400)
@@ -112,7 +106,6 @@ CREATE TABLE public.loan_status_history (
 );
 
 
-ALTER TABLE public.loan_status_history OWNER TO postgres;
 
 --
 -- TOC entry 221 (class 1259 OID 16409)
@@ -141,9 +134,6 @@ CREATE TABLE public.users (
     phone_number character varying(255),
     username character varying(255)
 );
-
-
-ALTER TABLE public.users OWNER TO postgres;
 
 --
 -- TOC entry 223 (class 1259 OID 16418)
