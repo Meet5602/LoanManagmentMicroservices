@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoanApplicationRequestDTO {
+  private Long id;
   @NotNull private String firstName;
 
   @NotNull private Long userId;

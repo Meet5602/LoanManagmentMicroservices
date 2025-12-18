@@ -1,5 +1,6 @@
 package com.CharlesRiverDevlopement.loan_payment_service.dto;
 
+import com.CharlesRiverDevlopement.loan_payment_service.model.VerificationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoanApplicationResponseDTO {
   private Long applicationId;
-  private String status;
+  private VerificationStatus status;
   private String message;
 }
