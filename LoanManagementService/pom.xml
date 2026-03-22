@@ -9,11 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.CharlesRiverDevlopement</groupId>
-	<artifactId>loan-payment-service</artifactId>
+	<artifactId>loan-management-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>loan-payment-service</name>
+	<name>loan-management-service</name>
 	<packaging>jar</packaging>
-	<description>loan payment microservice</description>
+	<description>loan management microservice</description>
 	<url/>
 	<licenses>
 		<license/>

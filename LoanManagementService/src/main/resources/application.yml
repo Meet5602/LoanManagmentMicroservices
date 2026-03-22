@@ -4,8 +4,7 @@ spring:
       name: admin
       password: admin123
   flyway:
-    enabled: true
-    baseline-on-migrate: true
+    enabled: false
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:15432/loan_management_db?serverTimezone=Asia/Kolkata}
     username: ${DB_USERNAME:postgres}
@@ -14,11 +13,23 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate   # or create-drop for first-time dev
+      ddl-auto: update   # or create-drop for first-time dev
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+
+  logging:
+    level:
+      root: INFO
+      com.CharlesRiverDevlopement.loan_mangment_service: DEBUG   # Enable debug logging for your application packages
+
+    file:
+      name: logs/loan-management-service.log
+
+    pattern:
+      console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+      file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 server:
   port: 8081

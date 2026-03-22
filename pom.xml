@@ -17,6 +17,7 @@
 
     <modules>
         <module>LoanManagementService</module>
+        <module>user-auth-service</module>
     </modules>
 
 </project>
