@@ -1,5 +1,6 @@
 package com.CharlesRiverDevlopement.user_auth_service.config;
 
+import com.CharlesRiverDevlopement.user_auth_service.model.Role;
 import com.CharlesRiverDevlopement.user_auth_service.security.JWTFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -26,6 +27,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html").permitAll()
+                        .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .build();

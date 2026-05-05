@@ -18,6 +18,7 @@
     <modules>
         <module>LoanManagementService</module>
         <module>user-auth-service</module>
+        <module>api-gateway</module>
     </modules>
 
 </project>

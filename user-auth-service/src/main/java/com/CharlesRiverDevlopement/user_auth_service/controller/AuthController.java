@@ -2,6 +2,7 @@ package com.CharlesRiverDevlopement.user_auth_service.controller;
 
 import com.CharlesRiverDevlopement.user_auth_service.dto.AuthRequest;
 import com.CharlesRiverDevlopement.user_auth_service.dto.AuthResponse;
+import com.CharlesRiverDevlopement.user_auth_service.dto.RefreshTokenRequest;
 import com.CharlesRiverDevlopement.user_auth_service.dto.RegisterRequest;
 import com.CharlesRiverDevlopement.user_auth_service.service.AuthService;
 import jakarta.transaction.Transactional;
@@ -28,4 +29,8 @@ public class AuthController {
         return authService.login(request);
     }
 
+    @PostMapping("/refreshToken")
+    public AuthResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        return authService.refreshToken(refreshTokenRequest.getEmail());
+    }
 }

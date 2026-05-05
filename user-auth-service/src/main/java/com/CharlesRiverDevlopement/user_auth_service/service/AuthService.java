@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -28,11 +30,11 @@ public class AuthService {
         user.setName(registerRequest.getName());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setRole(Role.USER);
+        user.setRole(List.of(Role.USER));
 
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
         return new AuthResponse(token,"Token generated successfully");
     }
 
@@ -44,7 +46,31 @@ public class AuthService {
             throw new RuntimeException("Invalid password");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
         return new AuthResponse(token,"User logged in successfully");
+    }
+
+    public AuthResponse refreshToken(String email) {
+        System.out.println("EMAIL FROM REQUEST: " + email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
+        return new AuthResponse(token,"Token refreshed successfully");
+    }
+
+    public AuthResponse addUserToAdmin(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Role> roles = user.getRole();
+        if(!roles.contains(Role.ADMIN)) {
+            roles.add(Role.ADMIN);
+            user.setRole(roles);
+            userRepository.save(user);
+        }
+
+        String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
+        return new AuthResponse(token,"User promoted to admin successfully");
     }
 }

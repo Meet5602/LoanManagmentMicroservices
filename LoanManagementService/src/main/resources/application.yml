@@ -1,8 +1,9 @@
 spring:
   security:
-    user:
-      name: admin
-      password: admin123
+    oauth2:
+      resource server:
+        jwt:
+          secret-key: bXktc3VwZXItc2VjcmV0LWtleS0zMmJ5dGVzLWxvbmc=
   flyway:
     enabled: false
   datasource:
