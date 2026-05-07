@@ -1,8 +1,8 @@
-package com.CharlesRiverDevlopement.user_auth_service.security;
+package com.CharlesRiverDevelopement.user_auth_service.security;
 
-import com.CharlesRiverDevlopement.user_auth_service.Repository.UserRepository;
-import com.CharlesRiverDevlopement.user_auth_service.model.User;
-import com.CharlesRiverDevlopement.user_auth_service.util.JwtUtil;
+import com.CharlesRiverDevelopement.user_auth_service.Repository.UserRepository;
+import com.CharlesRiverDevelopement.user_auth_service.model.User;
+import com.CharlesRiverDevelopement.user_auth_service.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

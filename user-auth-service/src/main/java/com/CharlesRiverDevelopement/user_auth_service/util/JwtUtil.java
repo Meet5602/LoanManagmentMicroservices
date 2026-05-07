@@ -1,6 +1,6 @@
-package com.CharlesRiverDevlopement.user_auth_service.util;
+package com.CharlesRiverDevelopement.user_auth_service.util;
 
-import com.CharlesRiverDevlopement.user_auth_service.model.Role;
+import com.CharlesRiverDevelopement.user_auth_service.model.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-
-import static java.security.KeyRep.Type.SECRET;
 
 @Component
 public class JwtUtil {

@@ -1,4 +1,4 @@
-package com.CharlesRiverDevlopement.user_auth_service;
+package com.CharlesRiverDevelopement.user_auth_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

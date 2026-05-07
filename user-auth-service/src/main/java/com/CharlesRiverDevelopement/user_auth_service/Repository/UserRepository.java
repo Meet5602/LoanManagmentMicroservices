@@ -1,6 +1,6 @@
-package com.CharlesRiverDevlopement.user_auth_service.Repository;
+package com.CharlesRiverDevelopement.user_auth_service.Repository;
 
-import com.CharlesRiverDevlopement.user_auth_service.model.User;
+import com.CharlesRiverDevelopement.user_auth_service.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

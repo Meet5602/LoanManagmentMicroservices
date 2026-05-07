@@ -1,10 +1,9 @@
-package com.CharlesRiverDevlopement.user_auth_service.model;
+package com.CharlesRiverDevelopement.user_auth_service.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 

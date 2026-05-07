@@ -1,9 +1,8 @@
-package com.CharlesRiverDevlopement.user_auth_service.config;
+package com.CharlesRiverDevelopement.user_auth_service.config;
 
-import com.CharlesRiverDevlopement.user_auth_service.model.Role;
-import com.CharlesRiverDevlopement.user_auth_service.security.JWTFilter;
+import com.CharlesRiverDevelopement.user_auth_service.model.Role;
+import com.CharlesRiverDevelopement.user_auth_service.security.JWTFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

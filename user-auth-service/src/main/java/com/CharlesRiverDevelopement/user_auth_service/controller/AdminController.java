@@ -1,8 +1,8 @@
-package com.CharlesRiverDevlopement.user_auth_service.controller;
+package com.CharlesRiverDevelopement.user_auth_service.controller;
 
-import com.CharlesRiverDevlopement.user_auth_service.dto.AuthResponse;
-import com.CharlesRiverDevlopement.user_auth_service.dto.RefreshTokenRequest;
-import com.CharlesRiverDevlopement.user_auth_service.service.AuthService;
+import com.CharlesRiverDevelopement.user_auth_service.dto.AuthResponse;
+import com.CharlesRiverDevelopement.user_auth_service.dto.RefreshTokenRequest;
+import com.CharlesRiverDevelopement.user_auth_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

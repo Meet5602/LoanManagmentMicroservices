@@ -1,4 +1,4 @@
-package com.CharlesRiverDevlopement.user_auth_service.dto;
+package com.CharlesRiverDevelopement.user_auth_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.CharlesRiverDevlopement.user_auth_service.dto;
+package com.CharlesRiverDevelopement.user_auth_service.dto;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

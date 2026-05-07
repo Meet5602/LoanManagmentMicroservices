@@ -1,12 +1,12 @@
-package com.CharlesRiverDevlopement.user_auth_service.service;
+package com.CharlesRiverDevelopement.user_auth_service.service;
 
-import com.CharlesRiverDevlopement.user_auth_service.Repository.UserRepository;
-import com.CharlesRiverDevlopement.user_auth_service.dto.AuthRequest;
-import com.CharlesRiverDevlopement.user_auth_service.dto.AuthResponse;
-import com.CharlesRiverDevlopement.user_auth_service.dto.RegisterRequest;
-import com.CharlesRiverDevlopement.user_auth_service.model.Role;
-import com.CharlesRiverDevlopement.user_auth_service.model.User;
-import com.CharlesRiverDevlopement.user_auth_service.util.JwtUtil;
+import com.CharlesRiverDevelopement.user_auth_service.Repository.UserRepository;
+import com.CharlesRiverDevelopement.user_auth_service.dto.AuthRequest;
+import com.CharlesRiverDevelopement.user_auth_service.dto.AuthResponse;
+import com.CharlesRiverDevelopement.user_auth_service.dto.RegisterRequest;
+import com.CharlesRiverDevelopement.user_auth_service.model.Role;
+import com.CharlesRiverDevelopement.user_auth_service.model.User;
+import com.CharlesRiverDevelopement.user_auth_service.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
