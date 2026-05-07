@@ -1,0 +1,24 @@
+spring:
+  security:
+    user:
+      name: admin
+      password: admin123
+  flyway:
+    enabled: false
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:15432/loan_management_db?serverTimezone=Asia/Kolkata}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres123}
+    driver-class-name: org.postgresql.Driver
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # or create-drop for first-time dev
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+server:
+  port: 8082
