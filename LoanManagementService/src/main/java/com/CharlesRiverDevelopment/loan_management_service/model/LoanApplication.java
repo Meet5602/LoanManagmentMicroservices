@@ -16,7 +16,7 @@ public class LoanApplication {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private long userId;
+  private String userId;
 
   private Double Amount;
   private Long termMonths;

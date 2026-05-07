@@ -13,4 +13,4 @@ spring:
         - id: loan-management-service
           uri: http://localhost:8081
           predicates:
-            - Path=/api/loan/**
+            - Path=/api/loans/**, /api/admin/**, /swagger-ui/**, /v3/api-docs/**

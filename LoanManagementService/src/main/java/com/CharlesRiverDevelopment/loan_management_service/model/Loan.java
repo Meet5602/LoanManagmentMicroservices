@@ -15,7 +15,7 @@ public class Loan {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "loan_app_id", nullable = false)
   private LoanApplication loanApplication;
 
@@ -31,4 +31,5 @@ public class Loan {
   private LocalDateTime startDate;
   private LocalDateTime endDate;
   private Boolean isActive;
+  private String userId;
 }

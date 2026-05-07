@@ -15,7 +15,7 @@ public class LoanStatusHistory {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "loan_app_id", nullable = false)
   private LoanApplication loanApplication;
 

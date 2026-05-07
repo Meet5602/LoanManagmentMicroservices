@@ -4,5 +4,5 @@ import com.CharlesRiverDevelopment.loan_management_service.dto.LoanApplicationRe
 import com.CharlesRiverDevelopment.loan_management_service.dto.LoanApplicationResponseDTO;
 
 public interface ILoanService {
-  public LoanApplicationResponseDTO applyForLoan(LoanApplicationRequestDTO loan, long userId);
+  public LoanApplicationResponseDTO applyForLoan(LoanApplicationRequestDTO loan, String userId);
 }
