@@ -25,5 +25,6 @@ public class EmailNotificationStrategy implements NotificationStrategy{
         simpleMailMessage.setSubject("Your loan has been approved!");
         simpleMailMessage.setText("Congratulations! Your loan with Amount " + loanApprovedEvent.getApprovedAmount() + " has been approved. " +
                 "You can now proceed with the next steps. Thank you for choosing our services.");
+        javaMailSender.send(simpleMailMessage);
     }
 }
