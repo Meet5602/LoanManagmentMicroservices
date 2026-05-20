@@ -1,6 +1,7 @@
 package com.CharlesRiverDevelopment.loan_management_service.service;
 
 import com.CharlesRiverDevelopment.loan_management_service.dto.LoanApplicationResponseDTO;
+import com.CharlesRiverDevelopment.loan_management_service.dto.LoanApprovedEvent;
 import com.CharlesRiverDevelopment.loan_management_service.model.Loan;
 import com.CharlesRiverDevelopment.loan_management_service.model.LoanApplication;
 import com.CharlesRiverDevelopment.loan_management_service.model.VerificationStatus;
@@ -14,16 +15,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class AdminService {
 
-    @Autowired private final LoanApplicationRepository loanApplicationRepo;
-    @Autowired private final LoanRepository loanRepository;
-    @Autowired private final LoanUtil loanUtil;
+    private final LoanApplicationRepository loanApplicationRepo;
+    private final LoanRepository loanRepository;
+    private final LoanUtil loanUtil;
+    private final OutboxService outboxService;
 
+    @Transactional
     public LoanApplication approveApplication(Long applicationId) {
 
         String userId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
@@ -48,8 +52,25 @@ public class AdminService {
         loanUtil.saveHistory(savedApp, VerificationStatus.APPROVED, "Approved by admin");
 
         // 4️⃣ Create Loan
-        createLoan(savedApp);
+        Loan loan = createLoan(savedApp);
 
+        //send event to Kafka
+        LoanApprovedEvent loanApprovedEvent = LoanApprovedEvent.builder().
+                eventId(UUID.randomUUID())
+                .loanId(loan.getId())
+                .userId(savedApp.getUserId())
+                .userEmail(savedApp.getUserId())
+                .userName(savedApp.getUserId())
+                .approvedAmount(loan.getPrincipalAmount())
+                .approvedAt(LocalDateTime.now())
+        .build();
+
+        outboxService.saveEvent(
+                "LOAN",
+                loan.getId().toString(),
+                "LOAN_APPROVED",
+                loanApprovedEvent
+        );
         return savedApp;
 
     }
