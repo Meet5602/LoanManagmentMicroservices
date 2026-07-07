@@ -2,6 +2,7 @@ package com.CharlesRiverDevelopment.loan_management_service.service;
 
 import com.CharlesRiverDevelopment.loan_management_service.dto.OutboxEventStatus;
 import com.CharlesRiverDevelopment.loan_management_service.repository.OutboxEventRepository;
+import com.CharlesRiverDevlopement.DTOs.EventType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.CharlesRiverDevelopment.loan_management_service.dto.OutboxEvent;
@@ -18,7 +19,7 @@ public class OutboxService {
     public void saveEvent(
             String aggregateType,
             String aggregateId,
-            String eventType,
+            EventType eventType,
             Object payload
     ) {
         try {

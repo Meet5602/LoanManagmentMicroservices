@@ -31,5 +31,5 @@ public class Loan {
   private LocalDateTime startDate;
   private LocalDateTime endDate;
   private Boolean isActive;
-  private String userId;
+  private Long userId;
 }

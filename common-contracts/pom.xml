@@ -4,28 +4,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
-        <relativePath/>
+        <groupId>org.example</groupId>
+        <artifactId>Loan-service-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.example</groupId>
-    <artifactId>Loan-service-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+
+    <groupId>com.CharlesRiverDevlopement</groupId>
+    <artifactId>common-contracts</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <modules>
-        <module>LoanManagementService</module>
-        <module>user-auth-service</module>
-        <module>api-gateway</module>
-        <module>notification-service</module>
-        <module>common-contracts</module>
-    </modules>
 
 </project>

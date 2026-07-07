@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface LoanApplicationRepository extends JpaRepository<LoanApplication, Long> {
   // Additional query methods can be defined here if needed
-    List<LoanApplication> findByUserId(String userId);
+    List<LoanApplication> findByUserId(Long userId);
 
-    Boolean existsByUserIdAndStatus(String userId, VerificationStatus status);
+    Boolean existsByUserIdAndStatus(Long userId, VerificationStatus status);
 }

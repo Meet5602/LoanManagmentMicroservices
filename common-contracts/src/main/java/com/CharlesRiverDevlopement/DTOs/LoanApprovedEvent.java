@@ -1,8 +1,7 @@
-package com.CharlesRiverDevelopment.loan_management_service.dto;
+package com.CharlesRiverDevlopement.DTOs;
 
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,7 +13,7 @@ import java.util.UUID;
 public class LoanApprovedEvent {
     private UUID eventId;
     private Long loanId;
-    private String userId;
+    private Long userId;
     private String userEmail;
     private String userName;
     private Double approvedAmount;

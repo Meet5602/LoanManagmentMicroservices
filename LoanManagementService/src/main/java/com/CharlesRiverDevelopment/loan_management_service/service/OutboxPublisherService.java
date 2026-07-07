@@ -46,16 +46,6 @@ public class OutboxPublisherService {
 
     private void publishEvent(OutboxEvent event) {
         try {
-            Class<?> clazz = Class.forName(event.getPayloadClass());
-
-            //deserialize the payload back to its original class
-            Object payloadObject = objectMapper.readValue(event.getPayload(),
-                    clazz);
-            kafkaTemplate.send(
-                    "loan-approved",
-                    event.getAggregateId(),
-                    payloadObject
-            ).get();
 
             event.setStatus(OutboxEventStatus.PUBLISHED);
             event.setPublishedAt(LocalDateTime.now());

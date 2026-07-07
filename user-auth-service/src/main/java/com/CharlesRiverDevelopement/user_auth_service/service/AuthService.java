@@ -7,6 +7,7 @@ import com.CharlesRiverDevelopement.user_auth_service.dto.RegisterRequest;
 import com.CharlesRiverDevelopement.user_auth_service.model.Role;
 import com.CharlesRiverDevelopement.user_auth_service.model.User;
 import com.CharlesRiverDevelopement.user_auth_service.util.JwtUtil;
+import com.CharlesRiverDevlopement.DTOs.UserReponseDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,5 +73,11 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
         return new AuthResponse(token,"User promoted to admin successfully");
+    }
+
+    public UserReponseDTO getUserById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserReponseDTO(user.getId(), user.getName(), user.getEmail());
     }
 }

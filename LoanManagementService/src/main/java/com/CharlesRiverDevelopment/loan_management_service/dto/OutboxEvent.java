@@ -1,5 +1,6 @@
 package com.CharlesRiverDevelopment.loan_management_service.dto;
 
+import com.CharlesRiverDevlopement.DTOs.EventType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +26,7 @@ public class OutboxEvent {
     private String aggregateId;
 
     @Column(nullable = false)
-    private String eventType;
+    private EventType eventType;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String payload;

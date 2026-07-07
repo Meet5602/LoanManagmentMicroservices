@@ -44,7 +44,6 @@ spring:
 
       properties:
         spring.json.trusted.packages: "*"
-        spring.json.value.default.type: com.CharlesRiverDevelopment.notification_service.dto.LoanApprovedEvent
         spring.json.use.type.headers: false
 
 management:

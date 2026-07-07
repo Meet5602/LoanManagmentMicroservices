@@ -57,9 +57,7 @@ public class LoanController {
 
   @GetMapping("/applications/user")
   @PreAuthorize("hasRole('USER')")
-  public List<LoanApplication> getMyApplications(Authentication auth) {
-
-    String userId = (String) auth.getPrincipal();
+  public List<LoanApplication> getMyApplications(@RequestParam Long userId) {
 
     return loanService.getByUser(userId);
   }
@@ -69,9 +67,8 @@ public class LoanController {
   public ResponseEntity<LoanApplicationResponseDTO> createLoan(
       @RequestBody LoanApplicationRequestDTO loan) {
     try {
-      String userIdHeader = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-      log.info("Received loan application request for userId: " + userIdHeader + " with amount: " + loan.getLoanAmount());
-      return new ResponseEntity<>(loanService.applyForLoan(loan,userIdHeader), HttpStatus.CREATED);
+      log.info("Received loan application request for userId: " + loan.getUserId() + " with amount: " + loan.getLoanAmount());
+      return new ResponseEntity<>(loanService.applyForLoan(loan), HttpStatus.CREATED);
     } catch (Exception e) {
       LoanApplicationResponseDTO errorResponse = new LoanApplicationResponseDTO();
       errorResponse.setStatus(VerificationStatus.FAILED);
@@ -97,8 +94,7 @@ public class LoanController {
   }
 
   @GetMapping("/loans/user")
-  public List<Loan> getUserLoans(Authentication auth) {
-    String userId = (String) auth.getPrincipal();
+  public List<Loan> getUserLoans(@RequestParam Long userId) {
     return loanService.getLoansByUser(userId);
   }
 

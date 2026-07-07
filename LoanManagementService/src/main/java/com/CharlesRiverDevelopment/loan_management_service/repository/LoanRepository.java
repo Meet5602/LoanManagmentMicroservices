@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface  LoanRepository extends JpaRepository<Loan, Long> {
-    public List<Loan> findByUserId(String userId);
+    public List<Loan> findByUserId(Long userId);
 
-    public boolean existsByUserIdAndIsActiveTrue(String userId);
+    public boolean existsByUserIdAndIsActiveTrue(Long userId);
 }
