@@ -2,6 +2,7 @@ package com.CharlesRiverDevelopment.loan_management_service.service;
 
 import com.CharlesRiverDevelopment.loan_management_service.dto.KycRequestDTO;
 import com.CharlesRiverDevelopment.loan_management_service.model.KYC;
+import com.CharlesRiverDevelopment.loan_management_service.model.VerificationStatus;
 import com.CharlesRiverDevelopment.loan_management_service.repository.KYCRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,9 +35,9 @@ public class KYCService {
                 .address(kyc.getAddress())
                 .submittedAt(java.time.LocalDateTime.now())
                 .dateOfBirth(kyc.getDateOfBirth())
+                .status(VerificationStatus.PENDING)
                 .build();
 
         return kycRepository.save(newKyc);
     }
-
 }

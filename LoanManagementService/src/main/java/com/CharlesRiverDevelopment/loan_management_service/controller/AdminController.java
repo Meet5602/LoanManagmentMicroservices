@@ -27,13 +27,13 @@ public class AdminController {
         return service.rejectApplication(id,"Application rejected by admin");
     }
 
-    @PutMapping
+    @PutMapping("/kyc/verify")
     @PreAuthorize("hasRole('ADMIN')")
     public KYC verifyKYC(@RequestParam Long kycId, @RequestParam boolean isApproved) {
         if (isApproved) {
             return service.verifyKYC(kycId);
         } else {
-            return service.rejectKYC(kycId, "KYC verification failed by admin");
+            return service.rejectKYC(kycId, "KYC verification failed by admin Please Send Your Documents Again physically to our office");
         }
     }
 }

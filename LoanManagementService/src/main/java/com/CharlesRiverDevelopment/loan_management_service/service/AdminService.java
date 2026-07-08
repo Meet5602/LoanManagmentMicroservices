@@ -139,6 +139,7 @@ public class AdminService {
 
         kyc.setStatus(VerificationStatus.APPROVED);
         kyc.setVerifiedAt(LocalDateTime.now());
+        kyc.setRejectionReason(null);
 
         return kycRepository.save(kyc);
     }

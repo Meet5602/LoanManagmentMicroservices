@@ -6,10 +6,7 @@ import com.CharlesRiverDevelopment.loan_management_service.repository.KYCReposit
 import com.CharlesRiverDevelopment.loan_management_service.service.KYCService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/kyc")
@@ -19,7 +16,7 @@ public class KYCController {
     private final KYCService kycService;
     private final KYCRepository kycRepository;
     @PostMapping("/create")
-    public KYC createKYC(KycRequestDTO kyc) {
+    public KYC createKYC(@RequestBody KycRequestDTO kyc) {
         return kycService.createKYC(kyc);
     }
 
