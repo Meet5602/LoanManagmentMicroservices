@@ -1,9 +1,9 @@
-name: Loan Service CI
+name: User Auth Service CI
 
 on:
   push:
     paths:
-      - "LoanManagementService/**"
+      - "user-auth-service/**"
       - "common-contracts/**"
       - "pom.xml"
 
@@ -19,5 +19,5 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build Loan Service
-        run: mvn clean verify -pl LoanManagementService -am
+      - name: Build User Auth Service
+        run: mvn clean verify -pl user-auth-service -am

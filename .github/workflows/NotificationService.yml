@@ -1,9 +1,9 @@
-name: Loan Service CI
+name: Notification Service CI
 
 on:
   push:
     paths:
-      - "LoanManagementService/**"
+      - "notification-service/**"
       - "common-contracts/**"
       - "pom.xml"
 
@@ -19,5 +19,5 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build Loan Service
-        run: mvn clean verify -pl LoanManagementService -am
+      - name: Build Notification Service
+        run: mvn clean verify -pl notification-service -am

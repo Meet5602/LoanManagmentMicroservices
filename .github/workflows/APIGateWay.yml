@@ -1,9 +1,9 @@
-name: Loan Service CI
+name: API Gateway CI
 
 on:
   push:
     paths:
-      - "LoanManagementService/**"
+      - "api-gateway/**"
       - "common-contracts/**"
       - "pom.xml"
 
@@ -19,5 +19,5 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build Loan Service
-        run: mvn clean verify -pl LoanManagementService -am
+      - name: Build API Gateway
+        run: mvn clean verify -pl api-gateway -am
