@@ -53,4 +53,3 @@ management:
   info:
     git:
       mode: full   # shows commit time, branch, build, etc
-

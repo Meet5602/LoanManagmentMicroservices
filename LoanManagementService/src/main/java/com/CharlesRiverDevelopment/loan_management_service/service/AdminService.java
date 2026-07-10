@@ -84,7 +84,7 @@ public class AdminService {
                 .payload(loanApprovedEvent)
                 .build();
         outboxService.saveEvent(
-                "LOAN",
+                "loan-events",
                 loan.getId().toString(),
                 LOAN_APPROVED,
                 notificationEvent

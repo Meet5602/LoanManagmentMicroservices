@@ -18,7 +18,7 @@ import java.util.List;
 public class OutboxPublisherService {
 
     private final OutboxEventRepository outboxEventRepository;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaProducer kafkaProducer;
     private final ObjectMapper objectMapper;
 
     @Scheduled(fixedDelay = 5000)
@@ -46,13 +46,16 @@ public class OutboxPublisherService {
 
     private void publishEvent(OutboxEvent event) {
         try {
-
-            event.setStatus(OutboxEventStatus.PUBLISHED);
-            event.setPublishedAt(LocalDateTime.now());
-
-            outboxEventRepository.save(event);
-
-            log.info("Published outbox event {}", event.getId());
+            kafkaProducer.publish(event.getAggregateType(), event.getAggregateId(), event.getPayload()).whenComplete((result, ex) -> {
+                if (ex != null) {
+                    handleFailure(event, new RuntimeException(ex));
+                } else {
+                    event.setStatus(OutboxEventStatus.PUBLISHED);
+                    event.setPublishedAt(LocalDateTime.now());
+                    outboxEventRepository.save(event);
+                    System.out.print("Published outbox event "+ event.getId());
+                }
+            });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
