@@ -18,7 +18,7 @@ public class EventCosumer {
 
     private final NotificationStrategyFactory notificationStrategyFactory;
     private final ObjectMapper objectMapper;
-    @KafkaListener(topics = "loan-approved")
+    @KafkaListener(topics = "loan-events")
     public void consumeLoanApprovedEvent(ConsumerRecord<String, String> record) throws JsonProcessingException {
 
         NotificationEvent<JsonNode> notificationEvent =  objectMapper.readValue(record.value(), new TypeReference<NotificationEvent<JsonNode>>() {

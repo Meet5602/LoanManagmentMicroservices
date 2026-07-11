@@ -11,12 +11,12 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class KafkaProducer {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public CompletableFuture<SendResult<String, Object>> publish(
+    public CompletableFuture<SendResult<String, String>> publish(
             String topic,
             String key,
-            Object payload
+            String payload
     ) {
 
         System.out.print("KafkaProducer.publish() called with topic: " + topic + ", key: " + key + ", payload: " + payload);
