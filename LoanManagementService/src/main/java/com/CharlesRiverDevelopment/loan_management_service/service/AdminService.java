@@ -120,12 +120,17 @@ public class AdminService {
         Loan loan = new Loan();
 
         loan.setLoanApplication(app);
+        // Required for findByUserId / existsByUserIdAndIsActiveTrue queries
+        loan.setUserId(app.getUserId());
         loan.setPrincipalAmount(app.getAmount());
         loan.setInterestRate(app.getInterestRate());
         loan.setTermMonths(app.getTermMonths());
 
         loan.setStatus(VerificationStatus.APPROVED);
         loan.setStartDate(LocalDateTime.now());
+        if (app.getTermMonths() != null) {
+            loan.setEndDate(LocalDateTime.now().plusMonths(app.getTermMonths()));
+        }
         loan.setIsActive(true);
 
         return loanRepository.save(loan);

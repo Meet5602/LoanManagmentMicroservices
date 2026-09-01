@@ -17,6 +17,8 @@ services:
           memory: 512M
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Creates user_db + notification_db on first container init only
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/01-init-databases.sql:ro
 
   kafka:
     image: apache/kafka:3.8.0

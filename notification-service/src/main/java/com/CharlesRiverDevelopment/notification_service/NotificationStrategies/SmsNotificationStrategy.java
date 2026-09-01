@@ -1,6 +1,6 @@
 package com.CharlesRiverDevelopment.notification_service.NotificationStrategies;
 
-import com.CharlesRiverDevelopment.notification_service.dto.LoanApprovedEvent;
+import com.CharlesRiverDevlopement.DTOs.LoanApprovedEvent;
 import com.CharlesRiverDevelopment.notification_service.models.NotificationChannel;
 import org.springframework.stereotype.Service;
 

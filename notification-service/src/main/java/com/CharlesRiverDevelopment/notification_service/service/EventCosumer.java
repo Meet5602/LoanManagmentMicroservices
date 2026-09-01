@@ -1,7 +1,7 @@
 package com.CharlesRiverDevelopment.notification_service.service;
 
-import com.CharlesRiverDevelopment.notification_service.dto.LoanApprovedEvent;
 import com.CharlesRiverDevelopment.notification_service.models.NotificationChannel;
+import com.CharlesRiverDevlopement.DTOs.LoanApprovedEvent;
 import com.CharlesRiverDevlopement.events.NotificationEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
