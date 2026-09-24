@@ -17,7 +17,7 @@ public class KYCService {
     private final KYCRepository kycRepository;
     public KYC createKYC(KycRequestDTO kyc) {
 
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String email = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
         //call the user-auth-service to validate the user exists and get user details
         // In a real application, you would save this to a database
         Optional<KYC> existingKyc =
@@ -25,7 +25,7 @@ public class KYCService {
         if(existingKyc.isPresent()){
             throw new RuntimeException("KYC already exists for user: "+ kyc.getUserId() + " with email: " + email);
         }
-        KYC newKyc = KYC.builder()
+         KYC newKyc = KYC.builder()
                 .userId(kyc.getUserId())
                 .fullName(kyc.getFullName())
                 .address(kyc.getAddress())

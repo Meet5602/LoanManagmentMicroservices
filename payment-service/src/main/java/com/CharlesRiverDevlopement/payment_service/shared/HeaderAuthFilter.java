@@ -1,4 +1,4 @@
-package com.CharlesRiverDevelopment.loan_management_service.shared;
+package com.CharlesRiverDevlopement.payment_service.shared;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 @Component
 public class HeaderAuthFilter extends OncePerRequestFilter {
     @Override
@@ -26,6 +25,7 @@ public class HeaderAuthFilter extends OncePerRequestFilter {
         String user = request.getHeader("X-User");
         String rolesHeader = request.getHeader("X-Roles");
         String email = request.getHeader("X-Email");
+
         if (user != null && rolesHeader != null) {
 
             List<SimpleGrantedAuthority> authorities =
@@ -34,7 +34,7 @@ public class HeaderAuthFilter extends OncePerRequestFilter {
                             .toList();
 
             Authentication auth =
-                    new UsernamePasswordAuthenticationToken(user, email, authorities);
+                    new UsernamePasswordAuthenticationToken(Integer.parseInt(user), email, authorities);
 
             SecurityContextHolder.getContext().setAuthentication(auth);
         }

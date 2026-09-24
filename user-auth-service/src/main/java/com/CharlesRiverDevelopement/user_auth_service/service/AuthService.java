@@ -23,7 +23,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public AuthResponse register(RegisterRequest registerRequest) {
+    public String register(RegisterRequest registerRequest) {
         if(userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new RuntimeException("User already exists");
         }
@@ -34,9 +34,7 @@ public class AuthService {
         user.setRole(List.of(Role.USER));
 
         userRepository.save(user);
-
-        String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
-        return new AuthResponse(token,"Token generated successfully");
+        return "Token generated successfully";
     }
 
     public AuthResponse login(AuthRequest request) {
@@ -47,7 +45,7 @@ public class AuthService {
             throw new RuntimeException("Invalid password");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
+        String token = jwtUtil.generateToken(user);
         return new AuthResponse(token,"User logged in successfully");
     }
 
@@ -56,7 +54,7 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
+        String token = jwtUtil.generateToken(user);
         return new AuthResponse(token,"Token refreshed successfully");
     }
 
@@ -71,7 +69,7 @@ public class AuthService {
             userRepository.save(user);
         }
 
-        String token = jwtUtil.generateToken(user.getEmail(),user.getRole());
+        String token = jwtUtil.generateToken(user);
         return new AuthResponse(token,"User promoted to admin successfully");
     }
 

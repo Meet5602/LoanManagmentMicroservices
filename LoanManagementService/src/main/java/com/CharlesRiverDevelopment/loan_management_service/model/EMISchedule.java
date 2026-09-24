@@ -14,8 +14,6 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Builder
 public class EMISchedule {
     @Id
@@ -29,6 +27,8 @@ public class EMISchedule {
     private BigDecimal emiAmount;
 
     private LocalDate dueDate;
+
+    private BigDecimal interestComponent;
 
     private BigDecimal principalComponent;
 

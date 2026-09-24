@@ -29,7 +29,7 @@ public class AdminController {
 
     @PutMapping("/kyc/verify")
     @PreAuthorize("hasRole('ADMIN')")
-    public KYC verifyKYC(@RequestParam Long kycId, @RequestParam boolean isApproved) {
+        public KYC verifyKYC(@RequestParam Long kycId, @RequestParam boolean isApproved) {
         if (isApproved) {
             return service.verifyKYC(kycId);
         } else {

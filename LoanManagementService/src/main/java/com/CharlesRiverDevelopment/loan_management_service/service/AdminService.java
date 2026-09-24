@@ -31,6 +31,8 @@ public class AdminService {
     private final LoanUtil loanUtil;
     private final OutboxService outboxService;
     private final AuthClient authClient;
+    private final EMICalculator emiCalculator;
+    private final EMIScheduleService emiScheduleService;
 
     @Transactional
     public LoanApplication approveApplication(Long applicationId) {
@@ -66,6 +68,8 @@ public class AdminService {
 
         // 4️⃣ Create Loan
         Loan loan = createLoan(savedApp);
+
+        emiScheduleService.generateSchedule(loan);
 
         //send event to Kafka
         LoanApprovedEvent loanApprovedEvent = LoanApprovedEvent.builder().
@@ -132,6 +136,15 @@ public class AdminService {
             loan.setEndDate(LocalDateTime.now().plusMonths(app.getTermMonths()));
         }
         loan.setIsActive(true);
+
+        double emi = emiCalculator.calculateEmi(
+                app.getAmount(),
+                app.getInterestRate(),
+                app.getTermMonths()
+        );
+
+        loan.setMonthlyPayment(emi);
+        loan.setTotalPayment(emi * app.getTermMonths());
 
         return loanRepository.save(loan);
     }
