@@ -32,6 +32,7 @@ public class Payment {
 
     private String transactionId;
 
+    @Column(nullable = false, unique = true)
     private String idempotencyKey;
 
     private LocalDateTime paymentDate;

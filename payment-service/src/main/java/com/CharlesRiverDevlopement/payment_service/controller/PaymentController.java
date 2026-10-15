@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ public class PaymentController {
     @PostMapping("/make-payment")
     public ResponseEntity<PaymentResponse> makePayment(
             @Valid @RequestBody PaymentRequest request,
+            @RequestHeader("Idempotency-Key") String idempotencyKey,
             Authentication authentication) {
 
         Long userId =
@@ -30,7 +32,8 @@ public class PaymentController {
         PaymentResponse response =
                 paymentService.makePayment(
                         request,
-                        userId
+                        userId,
+                        idempotencyKey
                 );
 
         return ResponseEntity.ok(response);

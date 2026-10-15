@@ -5,6 +5,7 @@ import com.CharlesRiverDevelopment.loan_management_service.model.EMISchedule;
 import com.CharlesRiverDevelopment.loan_management_service.model.Loan;
 import com.CharlesRiverDevelopment.loan_management_service.repository.EMIScheduleRepository;
 import com.CharlesRiverDevelopment.loan_management_service.repository.LoanRepository;
+import com.CharlesRiverDevlopement.DTOs.EMIDetailsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -99,9 +100,8 @@ public class EMIScheduleService {
 
     public List<EMISchedule> getSchedule(Long loanId) {
 
-        int authenticatedUserId = SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof Integer
-                ? (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal()
-                : -1;
+        Long authenticatedUserId = Long.valueOf(
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() ->
@@ -116,6 +116,27 @@ public class EMIScheduleService {
 
         return emiScheduleRepository
                 .findByLoanIdOrderByInstallmentNumberAsc(loanId);
+    }
+
+    public EMIDetailsDTO getEMIDetails(Long emiScheduleId) {
+
+        EMISchedule emi = emiScheduleRepository.findById(emiScheduleId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("EMI not found with id: " + emiScheduleId));
+
+        Loan loan = loanRepository.findById(emi.getLoanId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Loan not found with id: " + emi.getLoanId()));
+
+        // userId must be the loan owner, not the caller,
+        // so payment-service can verify ownership
+        return EMIDetailsDTO.builder()
+                .emiScheduleId(emi.getId())
+                .loanId(emi.getLoanId())
+                .userId(loan.getUserId())
+                .emiAmount(emi.getEmiAmount().doubleValue())
+                .paid(emi.getPaid())
+                .build();
     }
 
     private double round(double value) {
