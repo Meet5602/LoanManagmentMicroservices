@@ -2,6 +2,8 @@ package com.CharlesRiverDevlopement.payment_service.service;
 
 
 import com.CharlesRiverDevlopement.DTOs.EMIDetailsDTO;
+import com.CharlesRiverDevlopement.DTOs.EventType;
+import com.CharlesRiverDevlopement.DTOs.PaymentSuccessfulEvent;
 import com.CharlesRiverDevlopement.payment_service.DTO.PaymentGatewayResponse;
 import com.CharlesRiverDevlopement.payment_service.DTO.PaymentRequest;
 import com.CharlesRiverDevlopement.payment_service.DTO.PaymentResponse;
@@ -10,10 +12,14 @@ import com.CharlesRiverDevlopement.payment_service.clients.LoanServiceClient;
 import com.CharlesRiverDevlopement.payment_service.model.Payment;
 import com.CharlesRiverDevlopement.payment_service.model.PaymentStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,11 +28,34 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final LoanServiceClient loanServiceClient;
     private final PaymentGateway paymentGateway;
+    private final OutboxService outboxService;
 
     @Transactional
     public PaymentResponse makePayment(
             PaymentRequest request,
-            Long authenticatedUserId) {
+            Long authenticatedUserId,
+            String userEmail,
+            String idempotencyKey) {
+
+        // 0. Same key seen before -> return the original result, don't charge again
+        Optional<Payment> existing =
+                paymentRepository.findByIdempotencyKey(idempotencyKey);
+
+        if (existing.isPresent()) {
+
+            Payment previous = existing.get();
+
+            if (!previous.getUserId().equals(authenticatedUserId)
+                    || !previous.getEmiScheduleId().equals(request.getEmiScheduleId())) {
+
+                throw new ResponseStatusException(
+                        HttpStatus.CONFLICT,
+                        "Idempotency-Key already used for a different payment"
+                );
+            }
+
+            return buildResponse(previous);
+        }
 
         // 1. Get EMI details from Loan Service
         EMIDetailsDTO emi =
@@ -65,6 +94,7 @@ public class PaymentService {
                 .userId(authenticatedUserId)
                 .amount(emi.getEmiAmount())
                 .status(PaymentStatus.INITIATED)
+                .idempotencyKey(idempotencyKey)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
@@ -98,6 +128,28 @@ public class PaymentService {
         payment.setUpdatedAt(LocalDateTime.now());
 
         paymentRepository.save(payment);
+
+        // 9. Publish event to outbox
+        PaymentSuccessfulEvent event =
+                PaymentSuccessfulEvent.builder()
+                        .eventId(UUID.randomUUID())
+                        .paymentId(payment.getId())
+                        .loanId(payment.getLoanId())
+                        .emiScheduleId(payment.getEmiScheduleId())
+                        .userId(payment.getUserId())
+                        .userEmail(userEmail)
+                        .amount(payment.getAmount())
+                        .transactionId(payment.getTransactionId())
+                        .paymentDate(payment.getPaymentDate())
+                        .build();
+
+        outboxService.saveEvent(
+                "payment-events",
+                payment.getId().toString(),
+                EventType.PAYMENT_SUCCESS,
+                event
+        );
+
 
         return buildResponse(payment);
     }

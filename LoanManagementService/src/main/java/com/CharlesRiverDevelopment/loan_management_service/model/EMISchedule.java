@@ -35,4 +35,9 @@ public class EMISchedule {
     private Boolean paid;
 
     private LocalDate paymentDate;
+
+    // Reference to the payment-service record that paid this EMI
+    private Long paymentId;
+
+    private String transactionId;
 }

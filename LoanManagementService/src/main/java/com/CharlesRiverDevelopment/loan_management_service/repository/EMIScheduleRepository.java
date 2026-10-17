@@ -14,4 +14,6 @@ public interface EMIScheduleRepository extends JpaRepository<EMISchedule, Long> 
     );
 
     Optional<EMISchedule> findById(Long emiScheduleId);
+
+    boolean existsByLoanIdAndPaidFalse(Long loanId);
 }

@@ -1,7 +1,9 @@
 package com.CharlesRiverDevelopment.notification_service.service;
 
 import com.CharlesRiverDevelopment.notification_service.models.NotificationChannel;
+import com.CharlesRiverDevelopment.notification_service.models.NotificationMessage;
 import com.CharlesRiverDevlopement.DTOs.LoanApprovedEvent;
+import com.CharlesRiverDevlopement.DTOs.PaymentSuccessfulEvent;
 import com.CharlesRiverDevlopement.events.NotificationEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -27,11 +29,36 @@ public class EventCosumer {
         switch (notificationEvent.getType()){
             case LOAN_APPROVED:
                 LoanApprovedEvent loanApprovedEvent = objectMapper.treeToValue(notificationEvent.getPayload(), LoanApprovedEvent.class);
-                notificationStrategyFactory.getStrategy(NotificationChannel.EMAIL).sendNotification(loanApprovedEvent);
-                notificationStrategyFactory.getStrategy(NotificationChannel.SMS).sendNotification(loanApprovedEvent);
+                notifyAllChannels(new NotificationMessage(
+                        loanApprovedEvent.getUserId(),
+                        loanApprovedEvent.getUserEmail(),
+                        "Your loan has been approved!",
+                        "Congratulations! Your loan with Amount " + loanApprovedEvent.getApprovedAmount() + " has been approved. " +
+                                "You can now proceed with the next steps. Thank you for choosing our services."
+                ));
                 break;
             default:
                 throw new IllegalArgumentException("Unknown event type: " + notificationEvent.getType());
         }
             }
+
+    // payment-service publishes PaymentSuccessfulEvent directly (no NotificationEvent wrapper)
+    @KafkaListener(topics = "payment-events")
+    public void consumePaymentSuccessfulEvent(ConsumerRecord<String, String> record) throws JsonProcessingException {
+
+        PaymentSuccessfulEvent event = objectMapper.readValue(record.value(), PaymentSuccessfulEvent.class);
+
+        notifyAllChannels(new NotificationMessage(
+                event.getUserId(),
+                event.getUserEmail(),
+                "EMI payment received",
+                "We have received your EMI payment of " + event.getAmount() + " for loan #" + event.getLoanId() + ". " +
+                        "Transaction ID: " + event.getTransactionId() + ". Thank you!"
+        ));
+    }
+
+    private void notifyAllChannels(NotificationMessage message) {
+        notificationStrategyFactory.getStrategy(NotificationChannel.EMAIL).sendNotification(message);
+        notificationStrategyFactory.getStrategy(NotificationChannel.SMS).sendNotification(message);
+    }
 }
