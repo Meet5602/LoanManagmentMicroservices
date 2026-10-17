@@ -34,6 +34,7 @@ public class PaymentService {
     public PaymentResponse makePayment(
             PaymentRequest request,
             Long authenticatedUserId,
+            String userEmail,
             String idempotencyKey) {
 
         // 0. Same key seen before -> return the original result, don't charge again
@@ -136,6 +137,7 @@ public class PaymentService {
                         .loanId(payment.getLoanId())
                         .emiScheduleId(payment.getEmiScheduleId())
                         .userId(payment.getUserId())
+                        .userEmail(userEmail)
                         .amount(payment.getAmount())
                         .transactionId(payment.getTransactionId())
                         .paymentDate(payment.getPaymentDate())

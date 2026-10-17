@@ -24,6 +24,7 @@ public class LoanService implements ILoanService {
   @Autowired private LoanApplicationRepository loanApplicationRepository;
   @Autowired private LoanUtil loanUtil;
   @Autowired private LoanRepository loanRepository;
+  @Autowired private EMIScheduleRepository emiScheduleRepository;
   private final AuthClient authClient;
 
   public LoanApplicationResponseDTO applyForLoan(LoanApplicationRequestDTO loan) {
@@ -84,6 +85,27 @@ public class LoanService implements ILoanService {
 
   public List<Loan> getLoansByUser(Long userId) {
     return loanRepository.findByUserId(userId);
+  }
+
+  // Called after an EMI is paid; closes the loan once no unpaid EMI is left
+  public void closeLoanIfFullyPaid(Long loanId) {
+    if (emiScheduleRepository.existsByLoanIdAndPaidFalse(loanId)) {
+      return;
+    }
+
+    Loan loan = loanRepository.findById(loanId)
+            .orElseThrow(() -> new RuntimeException("Loan not found: " + loanId));
+
+    if (!Boolean.TRUE.equals(loan.getIsActive())) {
+      return;
+    }
+
+    loan.setIsActive(false);
+    loan.setStatus(VerificationStatus.CLOSED);
+    loan.setEndDate(LocalDateTime.now());
+    loanRepository.save(loan);
+
+    loanUtil.saveHistory(loan.getLoanApplication(), VerificationStatus.CLOSED, "All EMIs paid, loan closed");
   }
 
 }

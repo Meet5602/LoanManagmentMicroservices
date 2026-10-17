@@ -19,6 +19,7 @@ public class PaymentSuccessfulEvent {
     private Long loanId;
     private Long emiScheduleId;
     private Long userId;
+    private String userEmail;
     private Double amount;
     private String transactionId;
     private LocalDateTime paymentDate;

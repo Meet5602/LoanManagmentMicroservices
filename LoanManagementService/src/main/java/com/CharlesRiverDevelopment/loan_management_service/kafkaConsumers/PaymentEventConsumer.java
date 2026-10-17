@@ -3,6 +3,7 @@ package com.CharlesRiverDevelopment.loan_management_service.kafkaConsumers;
 import com.CharlesRiverDevlopement.DTOs.PaymentSuccessfulEvent;
 import com.CharlesRiverDevelopment.loan_management_service.model.EMISchedule;
 import com.CharlesRiverDevelopment.loan_management_service.repository.EMIScheduleRepository;
+import com.CharlesRiverDevelopment.loan_management_service.service.LoanService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ public class PaymentEventConsumer {
 
     private final ObjectMapper objectMapper;
     private final EMIScheduleRepository emiScheduleRepository;
+    private final LoanService loanService;
 
     @KafkaListener(
             topics = "payment-events",
@@ -64,6 +66,10 @@ public class PaymentEventConsumer {
                     event.getPaymentDate().toLocalDate()
             );
 
+            emi.setPaymentId(event.getPaymentId());
+
+            emi.setTransactionId(event.getTransactionId());
+
             emiScheduleRepository.save(emi);
 
             log.info(
@@ -71,6 +77,8 @@ public class PaymentEventConsumer {
                     emi.getId(),
                     event.getPaymentId()
             );
+
+            loanService.closeLoanIfFullyPaid(emi.getLoanId());
 
         } catch (Exception e) {
 

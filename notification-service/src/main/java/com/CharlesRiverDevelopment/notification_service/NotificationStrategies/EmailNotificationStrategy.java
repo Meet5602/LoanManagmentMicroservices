@@ -1,7 +1,7 @@
 package com.CharlesRiverDevelopment.notification_service.NotificationStrategies;
 
-import com.CharlesRiverDevlopement.DTOs.LoanApprovedEvent;
 import com.CharlesRiverDevelopment.notification_service.models.NotificationChannel;
+import com.CharlesRiverDevelopment.notification_service.models.NotificationMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,12 +19,15 @@ public class EmailNotificationStrategy implements NotificationStrategy{
     }
 
     @Override
-    public void sendNotification(LoanApprovedEvent loanApprovedEvent){
+    public void sendNotification(NotificationMessage message){
+        if (message.email() == null || message.email().isBlank()) {
+            System.out.println("No email for user " + message.userId() + ", skipping email");
+            return;
+        }
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(loanApprovedEvent.getUserEmail());
-        simpleMailMessage.setSubject("Your loan has been approved!");
-        simpleMailMessage.setText("Congratulations! Your loan with Amount " + loanApprovedEvent.getApprovedAmount() + " has been approved. " +
-                "You can now proceed with the next steps. Thank you for choosing our services.");
+        simpleMailMessage.setTo(message.email());
+        simpleMailMessage.setSubject(message.subject());
+        simpleMailMessage.setText(message.body());
         javaMailSender.send(simpleMailMessage);
     }
 }

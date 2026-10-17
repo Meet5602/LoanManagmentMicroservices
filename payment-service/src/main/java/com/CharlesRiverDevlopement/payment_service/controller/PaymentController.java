@@ -29,10 +29,14 @@ public class PaymentController {
         Long userId =
                 Long.valueOf(authentication.getName());
 
+        // HeaderAuthFilter stores the X-Email header as credentials
+        String userEmail = (String) authentication.getCredentials();
+
         PaymentResponse response =
                 paymentService.makePayment(
                         request,
                         userId,
+                        userEmail,
                         idempotencyKey
                 );
 

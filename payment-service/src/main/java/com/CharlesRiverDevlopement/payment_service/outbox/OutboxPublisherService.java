@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -31,33 +32,32 @@ public class OutboxPublisherService {
 
             try {
 
+                // Block until Kafka acks, so the next run never re-picks an in-flight event
                 kafkaProducer.publish(
                         "payment-events",
                         event.getAggregateId(),
                         event.getPayload()
-                ).whenComplete((result, ex) -> {
+                ).get(10, TimeUnit.SECONDS);
 
-                    if (ex != null) {
-                        handleFailure(event, ex);
-                    } else {
+                event.setStatus(
+                        OutboxEventStatus.PUBLISHED
+                );
 
-                        event.setStatus(
-                                OutboxEventStatus.PUBLISHED
-                        );
+                event.setPublishedAt(
+                        LocalDateTime.now()
+                );
 
-                        event.setPublishedAt(
-                                LocalDateTime.now()
-                        );
+                outboxEventRepository.save(event);
 
-                        outboxEventRepository.save(event);
+                log.info(
+                        "Published payment outbox event {}",
+                        event.getId()
+                );
 
-                        log.info(
-                                "Published payment outbox event {}",
-                                event.getId()
-                        );
-                    }
-                });
-
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                handleFailure(event, ex);
+                return;
             } catch (Exception ex) {
                 handleFailure(event, ex);
             }

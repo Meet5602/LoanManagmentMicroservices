@@ -4,5 +4,6 @@ public enum VerificationStatus {
   FAILED,
   PENDING,
   APPROVED,
-  REJECTED
+  REJECTED,
+  CLOSED
 }
